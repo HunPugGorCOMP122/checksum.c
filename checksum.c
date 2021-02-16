@@ -26,7 +26,7 @@ int main(int argc, char * argv[], char ** envp)
 	int remainder;
 	int input;
 
-	for (int c = 1; c <= count; c++)
+	for (int p = 1; p <= count; p++)
 	{
 		scanf_s("%d", &input);
 		if (input > max_int)
@@ -35,7 +35,7 @@ int main(int argc, char * argv[], char ** envp)
 			exit(1);
 		}
 
-		if (c == 10)
+		if (p == 10)
 		{
 			checksum = input;
 			input = 0;
