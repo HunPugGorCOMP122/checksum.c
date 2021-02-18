@@ -10,38 +10,37 @@
 
 #include "stdio.h"
 #include "stdlib.h"
+#include <sys/types.h>
+#include <sys/uio.h>
 #include <unistd.h>
 
+
 #define max_int (255)
-#define byte (unsigned char)
+#define byte unsigned char
+
 
 int main(int argc, char * argv[], char ** envp)
 {
 
 	int count = 10;
 	int sum = 0;
-	int checksum;
-	int complement;
+	byte checksum;
+	byte complement;
 	int quotient;
 	int remainder;
-	int input;
+	byte header[10];
 
-	for (int p = 1; p <= count; p++)
+	/* the following is the prototype for the read system call */
+	read(STDIN_FILENO, &header, count);
+
+	for (int c]p = 1; p <= count; p++)
 	{
-		scanf_s("%d", &input);
-		if (input > max_int)
+		if (p == 6)
 		{
-			fprintf(stderr, "Error in input \n");
-			exit(1);
+			checksum = header[c];
+			header[p] = 0;
 		}
-
-		if (p == 10)
-		{
-			checksum = input;
-			input = 0;
-		}
-
-		sum += input;
+		sum += header[p];
 	}
 
 	quotient = sum / (max_int + 1);
@@ -49,16 +48,11 @@ int main(int argc, char * argv[], char ** envp)
 	sum = quotient + remainder;
 	complement = max_int - sum;
 
-	/* the following is the prototype for the read system call */
-	int read(int fildes, void *buf, size_t nbyte);  
-	int buf[10];
-	int ret;
-	ret = read(0, (void*) &buf, 10);
 
-	printf("%s\n", buf);
-	
+
 	fprintf(stdout, "Stored Checksum: %d, Computed Checksum: %d\n", checksum, complement);
-	if (checksum != complement) {
+	if (checksum != complement) 
+	{
 		fprintf(stderr, "Error Detected!\n");
 		return 1;
 	}
